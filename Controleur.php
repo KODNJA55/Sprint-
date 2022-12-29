@@ -89,7 +89,7 @@
 				nouveauClient($nom,$prenom,$adresse,$numTel,$dateNais,$NSS,$departNaiss,$solde);
 			}
 		}else{
-			throw new Excepyion ("Un champ est vide");
+			throw new Exception ("Un champ est vide");
 		}
 	}
 
@@ -97,16 +97,50 @@
 		if(!(empty($nom)||empty($dateNais))){
 			$client=rechercheClient($nom,$dateNais);
 		}else{
-			throw new Excepyion ("Un champ est vide");
+			throw new Exception ("Un champ est vide");
 		}
 	}
 	
 	function CtlAjoutSolde($NSS,$ajout){
 		if(!(empty($NSS)||empty($ajout))){
-			if(recherche)
+			$idClient=rechercherIdClient($NSS);
+			$solde=getSolde($idclient);
+			$ajout+=$solde;
+			ajoutSolde($idClient,$ajout);
 		}
 	}
 
-	function CtlPrendreRDV($motif,$client,$medecin,$specialite){
+	function CtlPrendreRDV($motif,$client,$medecin,$specialite,$dateRDV){
+		if(!(empty($motif)||empty($client)||empty($medecin)||empty($specialite)||empty($dateRDV))){
+			if(getRole(getIdPers($medecin))=='medecin'){
+				if(getTacheAdmin($medecin)==$dateRDV){
+					if(getSpecialite($medecin)==$specialite){
+						if(getClient($client)!=null){
+							$etat='impaye';
+							nouveauRDV($motif,$client,$medecin,$specialite,$dateRDV,$etat);
+						}else{
+							throw new Exception ("Client inconnu");
+						}
+					}else{
+						throw new Exception ("Le médecin ne possède pas la spécialité ");
+					}
+				}else{
+					throw new Exception ("Le médecin est occupé à ce créneau");
+				}
+			}else{
+				throw new Exception ("Ce n'est pas un medecin");
+			}
+		}else{
+			throw new Exception ("Un champ est vide");
+		}
+	}
 
+// Pour Medecin
+
+	function CtlTacheAdmin($Date,$libelle,$medecin){
+		if(!(empty($Date)||empty($libelle)||empty($medecin))){
+			nouvelleTache($Date,$libelle,$medecin);
+		}else{
+			throw new Exception ("Un champ est vide")
+		}
 	}

@@ -26,6 +26,27 @@
 		$resultat->closeCursor();
 		return $role ;
 	}
+
+	function getIdPers($nom){
+		$connexion=getConnect();
+		$resultat= "select idPers from Personnel where NomP='$nom'"
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$id=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $id ;
+	}
+
+	function getSpecialite($medecin){
+		$connexion=getConnect();
+		$resultat= "select LibelleSp from Specialite where idPers=(Select IdPers from Personnel where NomP='$medecin'"
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$specialite=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $specialite ;
+
+	}
 	
 	// Pour directeur
 	
@@ -100,9 +121,73 @@
 		$requete="select * from Client where nom='$nom' and dateNaiss='$dateNaiss'";
 		$resultat=$connexion->query($requete);
 		$resultat->setFetchMode(PDO::FETCH_OBJ);
-		$liste=$resultat->fetchall();
+		$client=$resultat->fetchall();
 		$resultat->closeCursor();
 		return $client;
 	}
 
-	function 
+	function rechercheIdClient($NSS){
+		connexion=getConnect();
+		$requete="select idCl from Client where NSS='$NSS'";
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$id=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $id;
+	}
+
+	function nouveauRDV($motif,$client,$medecin,$specialite,$dateRDV,$EtatRdv){
+		$connexion=getConnect();
+		$requete="INSERT INTO Rdv VALUES('$motif','$client','$medecin','$specialite','$dateRDV','$EtatRdv')";
+		$resultat=$connexion->query($requete);
+		$resultat->closeCursor();
+	}
+	function getTacheAdmin($medecin){
+		connexion=getConnect();
+		$requete="select DateTa from TacheAdmin where idPers=(Select idPers from Personnel where NomP='$medecin')";
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$tache=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $tache;
+	}
+	
+	function getClient($client){
+		connexion=getConnect();
+		$requete="select * from Client where nom='$client'";
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$client=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $client;
+	}
+
+	function getSolde($idCl){
+		connexion=getConnect();
+		$requete="select solde from Client where idCl='$idCl'";
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$solde=$resultat->fetchall();
+		$resultat->closeCursor();
+		return $solde;
+	}
+
+	function ajoutSolde($idClient,$ajout){
+		$connexion=getConnect();
+		$requete="update Client set Solde='$ajout' WHERE idCl='$idClient'";
+		$resultat=$connexion->query($requete);
+		$resultat->setFetchMode(PDO::FETCH_OBJ);
+		$resultat->closeCursor();
+	}
+
+	//Médecin
+
+	function nouvelleTache($Date,$libelle,$medecin){
+		$connexion=getConnect();
+		$requete="INSERT INTO TacheAdmin VALUES('$medecin','$Date','$libelle')";
+		$resultat=$connexion->query($requete);
+		$resultat->closeCursor();
+	}
+
+	
+	
