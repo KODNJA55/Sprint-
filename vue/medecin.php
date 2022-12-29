@@ -21,11 +21,12 @@
 
             <p>
                 <label for="dateCr">Créneau: </label>
-                <input type="text" name="dateCr" id="dateCr" >
+                <input type="date" name="dateCr" id="dateCr" >
+                <input type="time" name="timeCr" id="timeCr">
             </p>
 
             <p>
-                <input type="submit" value="Valider" >
+                <input type="submit" name="newCreneau" value="Valider" >
             </p>
         </fieldset>
     </form>

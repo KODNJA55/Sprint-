@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        function afficherSpecialite(){
+            var neaudDiv= document.getElementById('divSpe');
+
+            var neaudSelect= document.forms['newEmp'].element['post'];
+
+            if(neaudSelect.value == medecin){
+                neaudDiv.style.display= "";
+            }
+            else{
+                neaudDiv.style.display= "none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- code ajout d'employe-->
+    <!--A CODER EN JS "UNE CASE APPARAIT QUAND POSTE MEDECIN SÉLECTIONNER-->
+    <form method="post" action="index.php" id="newEmp">
+        <fieldset>
+            <legend>Ajouter Employé</legend>
+
+            <p>
+                <label for="name">Nom: </label>
+                <input type="text" name="name" id="name" >
+            </p>
+
+            <p>
+                <label for="surname">Prenom: </label>
+                <input type="text" name="surname" id="surname" >
+            </p>
+
+            <p>
+                <label for="log">Login: </label>
+                <input type="text" name="log" id="log" >
+            </p>
+
+            <p>
+                <label for="mdp">MDP: </label>
+                <input type="password" name="mdp" id="mdp" >
+            </p>
+
+            <p>
+                Role: 
+                <select name="post" onchange="afficherSpecialite" >
+                    <option value="agent" selected>Agent</option>
+                    <option value="medecin" >Medecin</option>
+                    <option value="directeur">Directeur</option>
+                </select>
+            </p>
+
+            <div id="divSpe">
+
+            </div>
+
+            <p>
+                <input type="submit" name="newEmp" value="Valider">
+            </p>
+        </fieldset>
+    </form>
+    <!--CODE RECHERCHE ID EMPLOYÉ AVEC LE NOM , PRENOM ET LE POSTE-->
+    <form action="index.php" method="post" id="searchIdEmp">
+        <fieldset>
+            <legend>Recherche Id employé</legend>
+            
+            <p>
+                <label for="name">Nom: </label>
+                <input type="text" name="name" id="name" >
+            </p>
+
+            <p>
+                <label for="surname">Prenom: </label>
+                <input type="text" name="surname" id="surname" >
+            </p>
+
+            <p>
+                Poste: 
+                <select name="post" >
+                    <option value="agent" selected>Agent</option>
+                    <option value="medecin" >Medecin</option>
+                    <option value="directeur">Directeur</option>
+                </select>
+            </p>
+
+            <p>
+                <input type="submit" name="searchEmp" value="Valider" >
+            </p>
+
+            <?php echo $contenu ?>
+
+        </fieldset>
+
+    </form>
+
+    <!--CODE SUPPRESSION EMPLOYE AVEC LE ID EMP-->
+    <form method="post" action="index.php" id="deleteEmp">
+        <fieldset>
+            <legend>Supprimer Employé</legend>
+            
+            <p>
+                <label for="idEmp">id employé: </label>
+                <input type="number" name="idEmp" id="idEmp" >
+            </p>
+
+            <p>
+                <input type="submit" name="deleteEmp" value="Valider" >
+            </p>
+        </fieldset>
+    </form>
+
+    <!--CODE MODIFICATION DES IDENTIFIANTS AVEC LE ID-->
+    <form method="post" action="index.php" id="newLog">
+        <fieldset>
+            <legend>Modifier Identifiants de Connexion</legend>
+
+            <p>
+                <label for="idEmp">Id employé: </label>
+                <input type="number" name="idEmp" id="idEmp" >
+            </p>
+
+            <p>
+                <label for="log">Nouveau login: </label>
+                <input type="text" name="log" id="log" >
+            </p>
+
+            <p>
+                <label for="mdp">Nouveau mdp: </label>
+                <input type="password" name="mdp" id="mdp" >
+            </p>
+
+            <p>
+                <input type="submit" name="modifyEmp" value="Valider">
+            </p>
+        </fieldset>
+    </form>
+
+    
+</body>
+</html>
