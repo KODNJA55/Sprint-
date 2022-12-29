@@ -1,7 +1,27 @@
 <?php 
 	require_once('modele/modele.php');
 	require_once('vue/vue.php');
+//------------------------------------------------------------------------------------
+//             GENERAL
+//------------------------------------------------------------------------------------
 
+//aFFICHE UN MESSAGE D'ERREUR
+
+function ctlAffichageMsgErreur($msg){
+	affichageMsgErreur($msg);
+}
+
+// affichage la page de connection
+function ctlAffichaghePageConnexion(){
+	AffichagePageConnexion();
+}
+
+// déconnecte un utilisateur
+function ctlDeconnexion(){
+	session_destroy();
+	affichagePageConnexion();
+	session_start();
+}
 
 // Premiere connection
 	function CtlLogin($login,$mdp){
@@ -13,13 +33,13 @@
 				throw new Exception ("Login ou mot de passe incorrect"); 
 			}
 			if ($role=="Agent"){
-				require_once('vue/vueAgent.php');
+				require_once('vue/vueAgent.php'); // Dans la vue
 			}
 			if ($role=="Medecin"){
-				require_once('vue/vueMedecin.php');
+				require_once('vue/vueMedecin.php');// Dans la vue
 			}
 			if ($role=="Directeur"){
-				require_once('vue/vueDirecteur.php');
+				require_once('vue/vueDirecteur.php');// Dans la vue
 			}
 		}else{
 			throw new Exception ("Un champ est vide"); 
@@ -59,7 +79,7 @@
 	function CtlCreationMotif($motif,$prix){
 		$liste=getMotif();
 		for (int $i=0 ; $i<$liste.length ;$i++){
-			if ($motif==$liste[0]){
+			if ($motif==$liste[$i]){ //correction 0 en $i
 				throw new Exception ("Motif déjà existant");
 			}
 		}
@@ -69,7 +89,7 @@
 	function CtlModifierMotif($motif,$prix,){
 		$liste=getMotif();
 		for (int $i=0 ; $i<$liste.length ;$i++){
-			if ($motif==$liste[0]){
+			if ($motif==$liste[$i]){ //correction 0 en $i
 				modifierPrix($motif,$prix);
 			}
 		}
@@ -78,10 +98,15 @@
 
 	
 
-// Pour Agent
+//------------------------------------------------------------------------------------
+//    Agent
+//---------------------------------------------------------------------------------------
 
+    function ctlSyntheseClient($clientId){
+      
+	}
 	function CtlAjouterClient($nom,$prenom,$adresse,$numTel,$dateNais,$departNaiss,$NSS,$solde){
-		if(!(empty($nom)||empty($prenom)||empty($adresse)||empty($dateNais)||empty($departNaiss))){
+		if(!(empty($nom)||empty($prenom)||empty($adresse)||empty($numTel)||empty($dateNais)||empty($departNaiss))){
 			if(empty($solde)){
 				$solde=0;
 				nouveauClient($nom,$prenom,$adresse,$numTel,$dateNais,$NSS,$departNaiss,$solde);
